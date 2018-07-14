@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <title>Discipline = Freedom FX</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+
+  <div class="keys">
+    <div data-key="65" class="key">
+      <kbd>A</kbd>
+      <span class="sound">good evening</span>
+    </div>
+    <div data-key="83" class="key">
+      <kbd>S</kbd>
+      <span class="sound">just a man</span>
+    </div>
+    <div data-key="68" class="key">
+      <kbd>D</kbd>
+      <span class="sound">interwebs</span>
+    </div>
+    <div data-key="70" class="key">
+      <kbd>F</kbd>
+      <span class="sound">sorry</span>
+    </div>
+    <div data-key="71" class="key">
+      <kbd>G</kbd>
+      <span class="sound">t-shirt</span>
+    </div>
+    <div data-key="72" class="key">
+      <kbd>H</kbd>
+      <span class="sound">knock out</span>
+    </div>
+    <div data-key="74" class="key">
+      <kbd>J</kbd>
+      <span class="sound">only blood</span>
+    </div>
+    <div data-key="75" class="key">
+      <kbd>K</kbd>
+      <span class="sound">open you eyes</span>
+    </div>
+    <div data-key="76" class="key">
+      <kbd>L</kbd>
+      <span class="sound">all for tonight</span>
+    </div>
+    <div data-key="81" class="key">
+      <kbd>Q</kbd>
+      <span class="sound">back to book</span>
+    </div>      
+  </div>
+
+  <audio data-key="65" src="sounds/good-evening.wav"></audio>
+  <audio data-key="83" src="sounds/just-a-man.wav"></audio>
+  <audio data-key="68" src="sounds/interwebs.wav"></audio>
+  <audio data-key="70" src="sounds/sorry.wav"></audio>
+  <audio data-key="71" src="sounds/t-shirt.wav"></audio>
+  <audio data-key="72" src="sounds/knock-out.wav"></audio>
+  <audio data-key="74" src="sounds/only-blood.wav"></audio>
+  <audio data-key="75" src="sounds/open-your-eyes.wav"></audio>
+  <audio data-key="76" src="sounds/all-for-tonight.wav"></audio>
+  <audio data-key="81" src="sounds/back-to-book.wav"></audio>
+
+<script>
+  function keySound(e) {
+    const audio = document.querySelector(`audio[data-key='${e.keyCode}']`);
+    const key = document.querySelector(`.key[data-key='${e.keyCode}']`);
+    if(!audio) return; // stop the function 
+    audio.currentTime = 0; 
+    audio.play();
+    key.classList.add('playing');
+  }
+
+  function touchsound(e) {
+    const audio = document.querySelector(`audio[data-key='${this.dataset.key}']`);
+    if(!audio) return; // stop the function 
+    audio.currentTime = 0; 
+    audio.play();
+    this.classList.add('playing');
+  }
+
+  function removeTransition(e) {
+    if(e.propertyName !== 'transform') return; // skip if it's not a transform transition end
+    this.classList.remove('playing');
+  }
+
+  const keys = document.querySelectorAll('.key');
+
+  keys.forEach(key => {
+    key.addEventListener('transitionend', removeTransition);
+    key.addEventListener('touchstart', touchsound);
+  });
+
+  window.addEventListener('keydown', keySound);
+</script>
+
+
+</body>
+</html>
